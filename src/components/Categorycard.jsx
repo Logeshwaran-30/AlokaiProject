@@ -11,7 +11,7 @@ const categories = [
     },
     {
       title: `Jewels`,
-      image:"../public/circular_jewels.png",
+      image:"../circular_jewels.png",
       link:"/category/jewellery"
     },
   ];
