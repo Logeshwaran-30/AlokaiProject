@@ -19,6 +19,10 @@ const ProductCard = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertProductId, setAlertProductId] = useState(null);
   const { addToCart } = useCart(); // Access addToCart function from context
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -35,6 +39,11 @@ const ProductCard = () => {
     fetchProducts();
   }, []);
 
+  // Scroll to top whenever currentPage changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   // Filter products by category
   const getCategoryProducts = () => {
     if (!category) return products;
@@ -44,6 +53,19 @@ const ProductCard = () => {
     if (category === 'jewellery') return products.filter((p) => p.category === "jewelery");
     return [];
   };
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Calculate which products to display based on the current page
+  const currentProducts = getCategoryProducts().slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const totalPages = Math.ceil(getCategoryProducts().length / itemsPerPage);
 
   const handleAddToCart = (product) => {
     addToCart(product); // Add product to cart
@@ -121,7 +143,7 @@ const ProductCard = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {getCategoryProducts().map((product) => (
+        {currentProducts.map((product) => (
           <div key={product.id} className="border border-neutral-200 rounded-md hover:shadow-lg max-w-[300px]">
             <div className="relative">
               <Link to={`/Productdetails/${product.id}`}>
@@ -138,7 +160,6 @@ const ProductCard = () => {
               <Link to={`/Productdetails/${product.id}`}>
                 <h3>{product.title}</h3>
               </Link>
-              {/* Display Category Name under Product Title */}
               <p className="text-sm text-gray-500">{product.category}</p> 
               <div className="flex items-center pt-1">
                 <SfRating size="xs" value={Math.floor(product.rating?.rate || 0)} max={5} />
@@ -159,6 +180,33 @@ const ProductCard = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-6">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-4 py-2 bg-blue-500 text-white rounded-l-md"
+        >
+          Prev
+        </button>
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`px-4 py-2 ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'} mx-1 rounded-md`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 bg-blue-500 text-white rounded-r-md"
+        >
+          Next
+        </button>
       </div>
     </>
   );

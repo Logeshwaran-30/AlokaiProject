@@ -14,7 +14,7 @@ export default function Banner1() {
       <div className="md:flex md:flex-row-reverse md:justify-center min-h-[576px] max-w-[1536px] mx-auto">
         <div className="flex flex-col md:basis-2/4 md:items-stretch md:overflow-hidden">
           <img
-            src="https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg" // Updated image
+            src="/shoe.png" // Updated image
             alt="Product Image"
             className="h-3/4 object-cover object-left mt-4" // Added mt-4 to move the image down a little bit
           />
@@ -24,13 +24,13 @@ export default function Banner1() {
             New Arrivals
           </p>
           <h1 className="typography-display-2 md:typography-display-1 md:leading-[67.5px] font-bold mt-2 mb-4">
-           Mens Cotton Jacket
+          Sneaker Collection 
           </h1>
           <p className="typography-text-base md:typography-text-lg">
-          Great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, cycling, traveling or other outdoors
+          Experience the pinnacle of comfort and style with AirMax Supreme. Designed for performance and crafted for the streets.
           </p>
           <div className="flex flex-col md:flex-row gap-4 mt-6">
-           <Link to="/Productdetails/3" ><SfButton size="lg"> Order now </SfButton></Link>
+           <Link to="/category" ><SfButton size="lg"> Order now </SfButton></Link>
            <Link to="/category"> <SfButton size="lg" className="bg-white" variant="secondary">
               Show more
             </SfButton></Link>
